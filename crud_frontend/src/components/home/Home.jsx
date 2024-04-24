@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
+
+  const { id } = useParams()
 
   useEffect(() => {
     loadUsers();
@@ -17,6 +20,11 @@ export default function Home() {
     }
   };
 
+  const deleteUser = async (id) => {
+    await axios.delete(`http://localhost:8080/users/${id}`)
+    loadUsers()
+  }
+
   return (
     <div className="container">
       <div className="py-4">
@@ -24,20 +32,35 @@ export default function Home() {
           <thead>
             <tr>
               <th scope="col">UserID</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
+              <th scope="col">Name</th>
               <th scope="col">Username</th>
               <th scope="col">Email Address</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
               <tr>
-                <th scope="row" key={index}>{index+1}</th>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <th scope="row" key={index}>{index + 1}</th>
+                <td>{user.name}</td>
                 <td>{user.username}</td>
-                <td>{user.userEmail}</td>
+                <td>{user.email}</td>
+                <td>
+
+                  <Link
+                    className="btn btn-primary mx-2"
+                    to={`/viewuser/${user.id}`}
+                  >
+                    View
+                  </Link>
+                  <Link
+                    className="btn btn-outline-primary mx-2"
+                    to={`/edituser/${user.id}`}
+                  >
+                    Edit
+                  </Link>
+                  <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
