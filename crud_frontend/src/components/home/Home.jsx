@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 export default function Home() {
   const [users, setUsers] = useState([]);
 
-  const { id } = useParams()
+  const { userId } = useParams()
 
   useEffect(() => {
     loadUsers();
@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/users/${id}`)
+    await axios.delete(`http://localhost:8080/users/${userId}`)
     loadUsers()
   }
 
@@ -47,19 +47,19 @@ export default function Home() {
                 <td>{user.email}</td>
                 <td>
 
-                  <Link
+                <Link
                     className="btn btn-primary mx-2"
-                    to={`/viewuser/${user.id}`}
+                    to={`/viewuser/${user.userId}`}
                   >
                     View
                   </Link>
                   <Link
                     className="btn btn-outline-primary mx-2"
-                    to={`/edituser/${user.id}`}
+                    to={`/edituser/${user.userId}`}
                   >
                     Edit
                   </Link>
-                  <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
+                  <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.userId)}>Delete</button>
                 </td>
               </tr>
             ))}

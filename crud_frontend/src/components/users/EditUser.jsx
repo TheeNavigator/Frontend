@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 export default function EditUser() {
   let navigate = useNavigate();
 
-  const { id } = useParams();
+  const { userId } = useParams();
 
   const [user, setUser] = useState({
     name: "",
@@ -25,12 +25,12 @@ export default function EditUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/user/${id}`, user);
+    await axios.put(`http://localhost:8080/user/${userId}`, user);
     navigate("/");
   };
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/user/${id}`);
+    const result = await axios.get(`http://localhost:8080/user/${userId}`);
     setUser(result.data);
   };
 
